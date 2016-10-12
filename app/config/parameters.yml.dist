@@ -17,3 +17,11 @@ parameters:
 
     # A secret key that's used to generate certain security-related tokens
     secret:            ThisTokenIsNotSoSecretChangeIt
+
+
+    # nelmio cors
+    cors_allow_origin: 'http://localhost'
+
+    # nelmio api docs
+    api_name: 'vizlioAPI'
+    api_description: 'Cette API permet d'interragir avec le Modèle Vizlio'

@@ -187,4 +187,3 @@ class Book
         return $this->active;
     }
 }
-
