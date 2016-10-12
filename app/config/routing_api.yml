@@ -1,5 +1,5 @@
 # /app/config/routing_api.yml
 
-book:
+books:
     type: rest
     resource: MainBundle\Controller\BookController

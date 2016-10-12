@@ -3,46 +3,39 @@
 namespace MainBundle\Controller;
 
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use MainBundle\Entity\Book;
 
+use FOS\RestBundle\Controller\FOSRestController;
+use FOS\RestBundle\Routing\ClassResourceInterface;
+use Nelmio\ApiDocBundle\Annotation\ApiDoc;
+
+
+
 /**
- * Book controller.
- *
- * @Route("/book")
+ * Class BookController
+ * @package MainBundle\Controller
+ * 
  */
-class BookController extends Controller
+class BookController extends FOSRestController implements ClassResourceInterface
 {
     /**
-     * Lists all Book entities.
+     * Retourne un Book individuel
      *
-     * @Route("/", name="book_index")
-     * @Method("GET")
-     */
-    public function indexAction()
-    {
-        $em = $this->getDoctrine()->getManager();
-
-        $books = $em->getRepository('MainBundle:Book')->findAll();
-
-        return $this->render('book/index.html.twig', array(
-            'books' => $books,
-        ));
-    }
-
-    /**
-     * Finds and displays a Book entity.
+     * @param int $id
+     * @return mixed
+     * @throws \Doctrine\ORM\NoResultException
+     * @throws \Doctrine\ORM\NonUniqueResultException
      *
-     * @Route("/{id}", name="book_show")
-     * @Method("GET")
+     * @ApiDoc(
+     *     output="MainBundle\Entity\Book",
+     *     statusCodes={
+     *         200 = "Retour quand Succès",
+     *         404 = "Retour quand non trouvé"
+     *     }
+     * )
      */
-    public function showAction(Book $book)
+    public function getAction(int $id)
     {
-
-        return $this->render('book/show.html.twig', array(
-            'book' => $book,
-        ));
+        return $this->getDoctrine()->getRepository('MainBundle:Book')->find($id);
     }
 }
