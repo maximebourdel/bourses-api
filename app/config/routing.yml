@@ -1,0 +1,11 @@
+main_book:
+    resource: "@MainBundle/Controller/BookController.php"
+    type:     annotation
+
+main:
+    resource: "@MainBundle/Resources/config/routing.yml"
+    prefix:   /
+
+app:
+    resource: "@AppBundle/Controller/"
+    type:     annotation

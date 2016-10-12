@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Book list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Datecreation</th>
+                <th>Dateupdate</th>
+                <th>Active</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for book in books %}
+            <tr>
+                <td><a href="{{ path('book_show', { 'id': book.id }) }}">{{ book.id }}</a></td>
+                <td>{{ book.name }}</td>
+                <td>{{ book.description }}</td>
+                <td>{% if book.dateCreation %}{{ book.dateCreation|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{% if book.dateUpdate %}{{ book.dateUpdate|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{% if book.active %}Yes{% else %}No{% endif %}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('book_show', { 'id': book.id }) }}">show</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    
+{% endblock %}
