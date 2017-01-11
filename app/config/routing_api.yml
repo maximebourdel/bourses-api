@@ -1,5 +1,4 @@
 # /app/config/routing_api.yml
-
-books:
+industry:
     type: rest
-    resource: MainBundle\Controller\BookController
+    resource: MainBundle\Controller\IndustryController

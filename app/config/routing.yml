@@ -1,10 +1,6 @@
-main_book:
-    resource: "@MainBundle/Controller/BookController.php"
+main_industry:
+    resource: "@MainBundle/Controller/IndustryController.php"
     type:     annotation
-
-main:
-    resource: "@MainBundle/Resources/config/routing.yml"
-    prefix:   /
 
 
 NelmioApiDocBundle:
