@@ -56,7 +56,7 @@ class IndustryController extends FOSRestController implements ClassResourceInter
      *     }
      * )
      */
-    public function getAction(String $entry)
+    public function getAction($entry)
     {
         //retourne 10 résultats
         

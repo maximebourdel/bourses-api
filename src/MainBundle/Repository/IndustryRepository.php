@@ -11,7 +11,7 @@ namespace MainBundle\Repository;
 class IndustryRepository extends \Doctrine\ORM\EntityRepository
 {
 
-	public function searchBy(String $search)
+	public function searchBy($search)
 	{
 		
         $qb = $this->createQueryBuilder('i');
