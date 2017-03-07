@@ -71,13 +71,12 @@ swiftmailer:
     
 # Nelmio CORS
 nelmio_cors:
-    defaults:
-        allow_origin:  ["%cors_allow_origin%"]
-        allow_methods: ["POST", "PUT", "GET", "DELETE", "OPTIONS"]
-        allow_headers: ["content-type", "authorization"]
-        max_age:       3600
-    paths:
-        '^/': ~
+        paths:
+            '^/':
+                allow_origin:  ["*"]
+                allow_methods: ["POST", "PUT", "GET", "DELETE", "OPTIONS"]
+                allow_headers: ["content-type", "authorization"]
+                max_age:       3600
 
 # Nelmio API Doc
 nelmio_api_doc:
@@ -105,7 +104,11 @@ fos_rest:
             rss: false
         mime_types:
             json: ['application/json', 'application/x-json']
-        jsonp_handler: ~
+        jsonp_handler: 
+            callback_param: callback
+            # add jsonp mime-type here
+            # it's `application/javascript+jsonp` by default
+            mime_type: application/javascript
     routing_loader:
         default_format:  json
         include_format:  false
@@ -114,4 +117,3 @@ fos_rest:
             - { path: ^/, priorities: [ json, jsonp ], fallback_format: ~, prefer_extension: true }
     exception:
         enabled: true
-
