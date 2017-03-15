@@ -1,68 +1,108 @@
-Symfony Standard Edition
-========================
+Bourses API
+===================
 
-Welcome to the Symfony Standard Edition - a fully-functional Symfony
-application that you can use as the skeleton for your new applications.
+----------
 
-For details on how to download and get started with Symfony, see the
-[Installation][1] chapter of the Symfony Documentation.
+Installation
+-------------
 
-What's inside?
---------------
+### Arborescence
 
-The Symfony Standard Edition is configured with the following defaults:
+L'arborescence doit être la suivante :
 
-  * An AppBundle you can use to start coding;
+/var/www/html/bourses
+:   - <b>api</b> (repository <b>bourses-api</b>)
+:   - <b>front-office</b> (repository <b>bourses-front-office</b>)
 
-  * Twig as the only configured template engine;
 
-  * Doctrine ORM/DBAL;
+### Clonage 
 
-  * Swiftmailer;
+Lancer la commande suivante :
+```
+$ git clone https://github.com/maximebourdel/bourses-api.git
+```
 
-  * Annotations enabled for everything.
+### Fichier parameters.yml
+Le fichier est à déposer dans <b>/app/config</b> fichier <b>parameters.yml</b>
+```yml
+# This file is auto-generated during the composer install
+parameters:
+    database_host: 127.0.0.1
+    database_port: null
+    database_name: bourses
+    database_user: root
+    database_password: root
+    mailer_transport: smtp
+    mailer_host: 127.0.0.1
+    mailer_user: null
+    mailer_password: null
+    secret: ????????????????
+    cors_allow_origin: http://localhost
+    api_name: YahooFinanceAPI
+    api_description: Cette API permet d'interagir avec le Modèle des Bourses
+```
 
-It comes pre-configured with the following bundles:
+### Import des librairies
+La commande suivante va installer les librairies :
+```
+$ composer update
+```
 
-  * **FrameworkBundle** - The core Symfony framework bundle
+Vérification : la commande suivante ne doit pas retourner d'erreur
+```
+$ php bin/console
+```
 
-  * [**SensioFrameworkExtraBundle**][6] - Adds several enhancements, including
-    template and routing annotation capability
+### Autoriser les accès depuis n'importe quel serveur
+Dans le répertoire <b>web</b> pour le fichier <b>app_dev.php</b> :
+Supprimer les lignes 
+```php
+// This check prevents access to debug front controllers that are deployed by accident to production servers.
+// Feel free to remove this, extend it, or make something more sophisticated.
+if (isset($_SERVER['HTTP_CLIENT_IP'])
+    || isset($_SERVER['HTTP_X_FORWARDED_FOR'])
+    || !(in_array(@$_SERVER['REMOTE_ADDR'], ['127.0.0.1', '::1']) || php_sapi_name() === 'cli-server')
+) {
+    header('HTTP/1.0 403 Forbidden');
+    exit('You are not allowed to access this file. Check '.basename(__FILE__).' for more information.');
+}
+```
 
-  * [**DoctrineBundle**][7] - Adds support for the Doctrine ORM
+### Configurer apache2
+Dans le répertoire <b>/etc/apache2</b> dans le fichier <b>apache2.conf</b> , et ajouter à la fin du fichier :
+```
+<VirtualHost *:80>
 
-  * [**TwigBundle**][8] - Adds support for the Twig templating engine
+    ServerName bourses-online.com
+    ServerAlias www.bourses-online.com
 
-  * [**SecurityBundle**][9] - Adds security by integrating Symfony's security
-    component
+    Alias /api /var/www/html/bourses/api/web
 
-  * [**SwiftmailerBundle**][10] - Adds support for Swiftmailer, a library for
-    sending emails
+    DocumentRoot /var/www/html/bourses/front-office/dist
 
-  * [**MonologBundle**][11] - Adds support for Monolog, a logging library
+    <Directory /var/www/html/bourses/front-office/dist>
+        AllowOverride None
+        Order Allow,Deny
+        Allow from All
 
-  * **WebProfilerBundle** (in dev/test env) - Adds profiling functionality and
-    the web debug toolbar
+        RewriteEngine on
 
-  * **SensioDistributionBundle** (in dev/test env) - Adds functionality for
-    configuring and working with Symfony distributions
+        # Don't rewrite files or directories
+        RewriteCond %{REQUEST_FILENAME} -f [OR]
+        RewriteCond %{REQUEST_FILENAME} -d
+        RewriteRule ^ - [L]
 
-  * [**SensioGeneratorBundle**][13] (in dev/test env) - Adds code generation
-    capabilities
+        # Rewrite everything else to index.html
+        # to allow html5 state links
+        RewriteRule ^ index.html [L]
 
-  * **DebugBundle** (in dev/test env) - Adds Debug and VarDumper component
-    integration
 
-All libraries and bundles included in the Symfony Standard Edition are
-released under the MIT or BSD license.
+    </Directory>
 
-Enjoy!
+</VirtualHost>
+```
+Redémarrer ensuite apache :
+```
+$ sudo service apache2 restart
+```
 
-[1]:  https://symfony.com/doc/3.0/book/installation.html
-[6]:  https://symfony.com/doc/current/bundles/SensioFrameworkExtraBundle/index.html
-[7]:  https://symfony.com/doc/3.0/book/doctrine.html
-[8]:  https://symfony.com/doc/3.0/book/templating.html
-[9]:  https://symfony.com/doc/3.0/book/security.html
-[10]: https://symfony.com/doc/3.0/cookbook/email.html
-[11]: https://symfony.com/doc/3.0/cookbook/logging/monolog.html
-[13]: https://symfony.com/doc/3.0/bundles/SensioGeneratorBundle/index.html
