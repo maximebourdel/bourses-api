@@ -19,7 +19,7 @@ use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 class IndustryController extends FOSRestController implements ClassResourceInterface
 {
     /**
-     * Retourne un Industry individuel
+     * Retourne une liste d'Industry
      *
      * @return mixed
      * @throws \Doctrine\ORM\NoResultException
