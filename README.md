@@ -42,6 +42,15 @@ parameters:
     api_description: Cette API permet d'interagir avec le Modèle des Bourses
 ```
 
+### Installation de la base de données et des tables
+
+```sh
+$ cd /var/www/html/bourses/api
+$ php bin/console doctrine:database:create
+$ php bin/console doctrine:schema:update --force
+```
+
+
 ### Import des librairies
 La commande suivante va installer les librairies :
 ```
@@ -67,6 +76,7 @@ if (isset($_SERVER['HTTP_CLIENT_IP'])
     exit('You are not allowed to access this file. Check '.basename(__FILE__).' for more information.');
 }
 ```
+
 
 ### Configurer apache2
 Dans le répertoire <b>/etc/apache2</b> dans le fichier <b>apache2.conf</b> , et ajouter à la fin du fichier :
